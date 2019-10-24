@@ -1,6 +1,7 @@
 ﻿namespace Weather.Api
 {
     using System;
+    using System.ComponentModel;
 
     using FluentValidation.AspNetCore;
 
@@ -15,11 +16,13 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Microsoft.OpenApi.Models;
 
     using Swashbuckle.AspNetCore.Swagger;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     using Weather.Api.Configuration;
+    using Weather.Api.V1.Validators;
 
     public class Startup
     {
@@ -47,6 +50,7 @@
                             options.RespectBrowserAcceptHeader = true;
                             options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                             options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
+                            options.EnableEndpointRouting = false;
                         })
                 .AddFormatterMappings()
                 .AddXmlSerializerFormatters()
@@ -70,6 +74,7 @@
             services
                 .AddSingleton<Func<DateTime>>(() => DateTime.UtcNow)
                 .AddScoped<ModelValidationAttribute>()
+                .AddValidators()
                 .Configure<GelfLoggerOptions>(_configuration.GetSection("Graylog"))
                 .AddSwaggerGen(o => ConfigureSwaggerDocGen(services, o))
                 .AddLogging(
@@ -126,23 +131,23 @@
                 .UseMvc();
         }
 
-        private static Info CreateInfoForApiVersion(ApiVersionDescription description)
+        private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
         {
-            var info = new Info
+            var info = new OpenApiInfo
             {
                 Title = $"Appsfactory Weather API {description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
                 Description = "Appsfactory Company",
-                TermsOfService = "Shareware",
-                Contact = new Contact
+                TermsOfService = new Uri("http://mobinsb.org/licenses/online"),
+                Contact = new OpenApiContact
                 {
                     Name = "Pouyaandishan.com",
                     Email = "Pouyaandishan@gmail.com"
                 },
-                License = new License
+                License = new OpenApiLicense
                 {
                     Name = "Pouyaandishan",
-                    Url = "http://mobinsb.org/licenses/online"
+                    Url = new Uri("http://mobinsb.org/licenses/online")
                 }
             };
 
