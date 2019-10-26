@@ -283,10 +283,3 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 .vscode/settings.json
-
-src/Web/CustomerPanel/dist/
-
-src/Web/CustomerPanel/.dev
-docs
-assets
-src/Rasam.Database/Rasam.Database.jfm
