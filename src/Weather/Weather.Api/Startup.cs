@@ -1,7 +1,6 @@
 ﻿namespace Weather.Api
 {
     using System;
-    using System.ComponentModel;
 
     using FluentValidation.AspNetCore;
 
@@ -18,10 +17,10 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.OpenApi.Models;
 
-    using Swashbuckle.AspNetCore.Swagger;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     using Weather.Api.Configuration;
+    using Weather.Api.Services;
     using Weather.Api.V1.Validators;
 
     public class Startup
@@ -74,6 +73,7 @@
             services
                 .AddSingleton<Func<DateTime>>(() => DateTime.UtcNow)
                 .AddScoped<ModelValidationAttribute>()
+                .AddServices()
                 .AddValidators()
                 .Configure<GelfLoggerOptions>(_configuration.GetSection("Graylog"))
                 .AddSwaggerGen(o => ConfigureSwaggerDocGen(services, o))

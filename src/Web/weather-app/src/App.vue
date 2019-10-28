@@ -58,7 +58,12 @@
 <!-- http://www.prepbootstrap.com/bootstrap-template/weather-widget -->
 <!-- https://www.bbc.co.uk/weather/2643743 -->
 
-    <img alt="Vue logo" src="./assets/light-rain-shower-day.jpg">
+    <div class="row">
+        <div class="col-md-12">
+            <img alt="Vue logo" src="./assets/light-rain-shower-day.jpg">
+        </div>
+    </div>
+    
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
