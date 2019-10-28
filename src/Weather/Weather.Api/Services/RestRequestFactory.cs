@@ -27,7 +27,7 @@
             {
                 var result = new RestRequest();
 
-                result.AddHeader("Content-Type", ContentType);
+                // result.AddHeader("Content-Type", ContentType);
 
                 // TODO: Adding Authorization
 

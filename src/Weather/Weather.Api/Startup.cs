@@ -116,7 +116,7 @@
                     options.RoutePrefix = string.Empty;
                     options.InjectJavascript("../assets/swaggerinit.js");
                     options.OAuthClientId("swaggerui");
-                    options.OAuthAppName("Weather API - Swagger");
+                    options.OAuthAppName("WeatherController API - Swagger");
                 });
 
             app.UseCors(
@@ -135,7 +135,7 @@
         {
             var info = new OpenApiInfo
             {
-                Title = $"Appsfactory Weather API {description.ApiVersion}",
+                Title = $"Appsfactory WeatherController API {description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
                 Description = "Appsfactory Company",
                 TermsOfService = new Uri("http://mobinsb.org/licenses/online"),
