@@ -1,4 +1,4 @@
-﻿namespace Weather.Api.V1.Models
+﻿namespace Weather.Api.V1.Models.OpenWeatherMap
 {
     using System.Collections.Generic;
 

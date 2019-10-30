@@ -8,6 +8,7 @@
 
     using Weather.Api.Services.Abstracts;
     using Weather.Api.V1.Models;
+    using Weather.Api.V1.Models.OpenWeatherMap;
     using Weather.Data.Entities;
 
     public class Values : ControllerBaseV1

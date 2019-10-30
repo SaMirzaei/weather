@@ -1,6 +1,14 @@
 <template>
   <div id="app">
     <Header />
+    <ul v-if="weathers && weathers.length">
+      <li v-for="wather of weathers">
+        <p>
+          <strong>{{wather.title}}</strong>
+        </p>
+        <p>{{wather.body}}</p>
+      </li>
+    </ul>
 
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row">
@@ -360,12 +368,20 @@
       <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">DAY
-							<i class="icon bigger" style="background: url('https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg') no-repeat; background-size: contain;"></i>
-						</th>
-            <th scope="col">DESCRIPTION
-							<i class="icon" style="background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg) no-repeat; background-size: contain;"></i>
-						</th>
+            <th scope="col">
+              DAY
+              <i
+                class="icon bigger"
+                style="background: url('https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg') no-repeat; background-size: contain;"
+              ></i>
+            </th>
+            <th scope="col">
+              DESCRIPTION
+              <i
+                class="icon"
+                style="background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg) no-repeat; background-size: contain;"
+              ></i>
+            </th>
             <th scope="col">HIGH / LOW</th>
             <th scope="col">PRECIP</th>
             <th scope="col">WIND</th>
@@ -373,7 +389,7 @@
           </tr>
         </thead>
         <tbody>
-					<tr>
+          <tr>
             <th scope="row">TODAY OCT 28</th>
             <td>Rain</td>
             <td>60°53°</td>
@@ -397,7 +413,7 @@
             <td>WSW 9 mph</td>
             <td>60%</td>
           </tr>
-					<tr>
+          <tr>
             <th scope="row">TUE OCT 29</th>
             <td>Mostly Sunny</td>
             <td>66°52°</td>
@@ -515,12 +531,29 @@
 <script>
 // import HelloWorld from "./components/HelloWorld.vue";
 import Header from "./components/Header.vue";
+import axios from "axios";
 
 export default {
   name: "app",
   components: {
     // HelloWorld,
     Header
+  },
+  data() {
+    return {
+      weathers: []
+    };
+  },
+  // Fetches posts when the component is created.
+  created() {
+    axios
+      .get("http://localhost:5000/v1/weather/forecast")
+      .then(response => {
+        this.weathers = response.data;
+      })
+      .catch(e => {
+        this.errors.push(e);
+      });
   }
 };
 </script>
@@ -668,18 +701,18 @@ footer .copyright span {
 
 /* weather */
 .icon.bigger {
-    width: 57px;
-    height: 57px;
+  width: 57px;
+  height: 57px;
 }
 .icon {
-    width: 34px;
-    height: 34px;
-    display: inline-block;
-    vertical-align: middle;
-    margin: -3px 12px 0 0;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    text-indent: -9999px;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: -3px 12px 0 0;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-indent: -9999px;
 }
 </style>
