@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.AspNetCore.Mvc.Versioning;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -22,6 +23,7 @@
     using Weather.Api.Configuration;
     using Weather.Api.Services;
     using Weather.Api.V1.Validators;
+    using Weather.Data.Entities;
 
     public class Startup
     {
@@ -94,6 +96,8 @@
                         })
                 .AddResponseCompression();
 
+            services.AddDbContext<ApiContext>(options => options.UseInMemoryDatabase("Weather"));
+
             services.BuildServiceProvider();
         }
 
@@ -103,7 +107,7 @@
             {
                 app.UseDeveloperExceptionPage();
             }
-
+           
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -129,6 +133,8 @@
                 })
                 .UseResponseCompression()
                 .UseMvc();
+
+            AddTestData(app.ApplicationServices.GetService<ApiContext>());
         }
 
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
@@ -190,6 +196,20 @@
             //////var xmlFile = $"{typeof(Startup).Assembly.GetName().Name}.xml";
             //////var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             //////options.IncludeXmlComments(xmlPath);
+        }
+
+        private static void AddTestData(ApiContext context)
+        {
+            var testUser1 = new Information
+            {
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                Json = "test"
+            };
+
+            context.Informations.Add(testUser1);
+
+            context.SaveChanges();
         }
     }
 }

@@ -1,24 +1,34 @@
 ﻿namespace Weather.Api.V1.Controllers
 {
+    using System.Linq;
+
     using Microsoft.AspNetCore.Mvc;
 
     using RestSharp;
 
     using Weather.Api.Services.Abstracts;
     using Weather.Api.V1.Models;
+    using Weather.Data.Entities;
 
     public class Values : ControllerBaseV1
     {
         private readonly IRestClientProxy _restClientProxy;
 
-        public Values(IRestClientProxy restClientProxy)
+        private readonly ApiContext _context;
+
+        public Values(
+            IRestClientProxy restClientProxy,
+            ApiContext context)
         {
             _restClientProxy = restClientProxy;
+            _context = context;
         }
 
         [HttpGet]
         public string Get()
         {
+            var result = _context.Informations.ToList();
+
             var data = _restClientProxy
                 .Setup(
                     t =>
