@@ -1,4 +1,4 @@
-﻿namespace Weather.Api.Services.Abstracts
+﻿namespace Weather.Api.Infrastructures.Abstracts
 {
     using RestSharp;
 

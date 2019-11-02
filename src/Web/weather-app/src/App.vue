@@ -1,15 +1,6 @@
 <template>
   <div id="app">
     <Header />
-    <ul v-if="weathers && weathers.length">
-      <li v-for="wather of weathers">
-        <p>
-          <strong>{{wather.title}}</strong>
-        </p>
-        <p>{{wather.body}}</p>
-      </li>
-    </ul>
-
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row">
         <div class="col-md-12">
@@ -30,58 +21,8 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top: 20px">
-        <div class="col-md-12">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-md-2 col-md-offset-2">
+        <div class="col-md-2" v-for="weather in weathers" :key="weather.coutnry">
           <div class="weather">
             <div class="current">
               <div class="info">
@@ -89,16 +30,24 @@
                 <div class="city">
                   <small>
                     <small>CITY:</small>
-                  </small> London
+                  </small>
+                  {{ weather.city }},{{ weather.coutnry }}
                 </div>
                 <div class="temp">
-                  67&deg;
-                  <small>F</small>
+                  {{Number(weather.maxTemperature).toFixed(0)}}/{{Number(weather.minTemperature).toFixed(0)}}&deg;
+                  <small>C</small>
                 </div>
                 <div class="wind">
                   <small>
                     <small>WIND:</small>
-                  </small> 22 km/h
+                  </small>
+                  {{weather.wind}} km/h
+                </div>
+                <div class="wind">
+                  <small>
+                    <small>HUMIDITY:</small>
+                  </small>
+                  {{weather.humidity}}%
                 </div>
                 <div>&nbsp;</div>
               </div>
@@ -108,12 +57,12 @@
             </div>
             <div class="future">
               <div class="day">
-                <h3>Mon</h3>
-                <p>
+                <h4 class="date">Tus 30 October</h4>
+                <!-- <p>
                   <span class="wi-day-cloudy"></span>
-                </p>
+                </p> -->
               </div>
-              <div class="day">
+              <!-- <div class="day">
                 <h3>Tue</h3>
                 <p>
                   <span class="wi-showers"></span>
@@ -124,242 +73,7 @@
                 <p>
                   <span class="wi-rain"></span>
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-          <div class="weather">
-            <div class="current">
-              <div class="info">
-                <div>&nbsp;</div>
-                <div class="city">
-                  <small>
-                    <small>CITY:</small>
-                  </small> London
-                </div>
-                <div class="temp">
-                  67&deg;
-                  <small>F</small>
-                </div>
-                <div class="wind">
-                  <small>
-                    <small>WIND:</small>
-                  </small> 22 km/h
-                </div>
-                <div>&nbsp;</div>
-              </div>
-              <div class="icon">
-                <span class="wi-day-sunny"></span>
-              </div>
-            </div>
-            <div class="future">
-              <div class="day">
-                <h3>Mon</h3>
-                <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -370,17 +84,17 @@
           <tr>
             <th scope="col">
               DAY
-              <i
+              <!-- <i
                 class="icon bigger"
                 style="background: url('https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg') no-repeat; background-size: contain;"
-              ></i>
+              ></i>-->
             </th>
             <th scope="col">
               DESCRIPTION
-              <i
+              <!-- <i
                 class="icon"
                 style="background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg) no-repeat; background-size: contain;"
-              ></i>
+              ></i>-->
             </th>
             <th scope="col">HIGH / LOW</th>
             <th scope="col">PRECIP</th>
@@ -389,47 +103,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">TODAY OCT 28</th>
-            <td>Rain</td>
-            <td>60°53°</td>
-            <td>80%</td>
+          <tr v-for="history in historyWeathers" :key="history.dateTime">
+            <th scope="row">{{history.dateTime | formatDate }}</th>
+            <td>
+              {{history.description}}
+              <i
+                class="icon"
+                style="background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg) no-repeat; background-size: contain;"
+              ></i>
+            </td>
+            <td>{{history.highTemperature}}° / {{history.lowTemperature}}°</td>
+            <td>{{history.wind}}%</td>
             <td>SE 8 mph</td>
-            <td>66%</td>
-          </tr>
-          <tr>
-            <th scope="row">TUE OCT 29</th>
-            <td>Mostly Sunny</td>
-            <td>66°52°</td>
-            <td>20%</td>
-            <td>WSW 9 mph</td>
-            <td>60%</td>
-          </tr>
-          <tr>
-            <th scope="row">TUE OCT 29</th>
-            <td>Mostly Sunny</td>
-            <td>66°52°</td>
-            <td>20%</td>
-            <td>WSW 9 mph</td>
-            <td>60%</td>
-          </tr>
-          <tr>
-            <th scope="row">TUE OCT 29</th>
-            <td>Mostly Sunny</td>
-            <td>66°52°</td>
-            <td>20%</td>
-            <td>WSW 9 mph</td>
-            <td>60%</td>
+            <td>{{history.humidity}}%</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <link
+    <!-- <link
       rel="stylesheet"
       type="text/css"
       href="/Content/css/weather-icons/css/weather-icons.min.css"
-    />
+    />-->
     <!-- http://www.prepbootstrap.com/bootstrap-template/weather-widget -->
     <!-- https://www.bbc.co.uk/weather/2643743 -->
 
@@ -541,19 +237,46 @@ export default {
   },
   data() {
     return {
-      weathers: []
+      weathers: [],
+      historyWeathers: []
     };
   },
-  // Fetches posts when the component is created.
+  computed: {
+    axiosParams() {
+      const params = new URLSearchParams();
+      params.append("city", "Tehran");
+      params.append("zipCode", "1597");
+      return params;
+    }
+  },
   created() {
-    axios
-      .get("http://localhost:5000/v1/weather/forecast")
-      .then(response => {
-        this.weathers = response.data;
-      })
-      .catch(e => {
-        this.errors.push(e);
-      });
+    this.fetch();
+  },
+  methods: {
+    fetch() {
+      axios
+        .get("http://localhost:5000/v1/weather/forecast", {
+          params: this.axiosParams
+        })
+        .then(response => {
+          this.weathers = response.data;
+
+          this.history("tehran");
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    history(city) {
+      axios
+        .get("http://localhost:5000/v1/weather/history/" + city)
+        .then(response => {
+          this.historyWeathers = response.data;
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    }
   }
 };
 </script>
@@ -565,8 +288,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
 }
+
+.date {
+    font-size: 1.2rem;
+    text-align: center;
+    padding-top: 5px;
+}
+
 .weather {
   display: flex;
   flex-flow: column wrap;
@@ -580,7 +309,7 @@ export default {
   background-image: url("http://www.prepbootstrap.com/Content/images/shared/misc/london-view.png");
   background-repeat: repeat-x;
   color: white;
-  padding: 20px;
+  /* padding: 20px; */
   text-shadow: 1px 1px #f68d2e;
 }
 
@@ -595,18 +324,15 @@ export default {
   font-size: 26px;
 }
 
-.weather .current .info .temp {
-  font-size: 56px;
-}
-
-.weather .current .info .wind {
-  font-size: 24px;
-}
-
 .weather .current .icon {
-  text-align: center;
-  font-size: 64px;
+  margin: 0;
+  width: 80px;
+  height: 80px;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
   flex-grow: 1;
+  background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg)
+    50% 50% / contain no-repeat;
 }
 
 .weather .future {

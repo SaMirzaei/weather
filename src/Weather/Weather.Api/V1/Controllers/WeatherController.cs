@@ -1,7 +1,5 @@
 ﻿namespace Weather.Api.V1.Controllers
 {
-    using System.Collections.Generic;
-
     using Microsoft.AspNetCore.Mvc;
 
     using Weather.Api.Services.Abstracts;
@@ -9,34 +7,40 @@
 
     public class WeatherController : ControllerBaseV1
     {
-        private readonly IRestClientProxy _restClientProxy;
+        private readonly IWeatherService _weatherService;
 
-        public WeatherController(IRestClientProxy restClientProxy)
+        public WeatherController(IWeatherService weatherService)
         {
-            _restClientProxy = restClientProxy;
+            _weatherService = weatherService;
         }
 
         [HttpGet("forecast")]
-        public IActionResult GetCity([FromQuery]Parameter parameter)
+        public IActionResult GetCity([FromQuery]SearchKey searchKey)
         {
-            var result = new List<WeatherModel>
+            if (searchKey == null)
             {
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-                new WeatherModel { Coutnry = "IR", City = "Tehran", Humidity = 120, MaxTemperature = 160.127, MinTemperature = 150.54, Wind = 200},
-            };
+                return BadRequest();
+            }
+
+            var result = !string.IsNullOrEmpty(searchKey.City) ?
+                            _weatherService.GetByCity(searchKey.City) :
+                            _weatherService.GetByZipCide(searchKey.ZipCode);
 
             return Ok(result);
         }
 
-        public class Parameter
-        {
-            public string City { get; set; }
 
-            public string ZipCode { get; set; }
+        [HttpGet("history/{city}")]
+        public IActionResult History(string city)
+        {
+            if (string.IsNullOrEmpty(city))
+            {
+                return BadRequest();
+            }
+
+            var result = _weatherService.GetHistory(city);
+            
+            return Ok(result);
         }
     }
 }

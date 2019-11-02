@@ -1,4 +1,4 @@
-﻿namespace Weather.Api.Services.Abstracts
+﻿namespace Weather.Api.Infrastructures.Abstracts
 {
     using System;
     using System.Threading.Tasks;

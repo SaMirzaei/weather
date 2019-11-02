@@ -1,10 +1,10 @@
-﻿namespace Weather.Api.Services
+﻿namespace Weather.Api.Infrastructures
 {
     using Microsoft.Extensions.Options;
 
     using RestSharp;
 
-    using Weather.Api.Services.Abstracts;
+    using Weather.Api.Infrastructures.Abstracts;
 
     internal class RestClientFactory : IRestClientFactory
     {

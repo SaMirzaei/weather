@@ -1,4 +1,4 @@
-﻿namespace Weather.Api.Services
+﻿namespace Weather.Api.Infrastructures
 {
     using System;
     using System.Threading;
@@ -11,6 +11,7 @@
 
     using RestSharp;
 
+    using Weather.Api.Infrastructures.Abstracts;
     using Weather.Api.Services.Abstracts;
 
     internal class RestClientProxy : IRestClientProxy

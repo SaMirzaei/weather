@@ -1,4 +1,4 @@
-﻿namespace Weather.Api.Services
+﻿namespace Weather.Api.Infrastructures
 {
     using System;
     using System.Runtime.Serialization;
@@ -13,7 +13,7 @@
         public UnauthorizedRequestException(string message)
             : base(message)
         {
-        }
+        }   
 
         public UnauthorizedRequestException(string message, Exception exception)
             : base(message, exception)

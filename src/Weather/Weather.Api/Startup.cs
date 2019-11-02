@@ -21,7 +21,9 @@
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     using Weather.Api.Configuration;
+    using Weather.Api.Infrastructures;
     using Weather.Api.Services;
+    using Weather.Api.Services.Mapper;
     using Weather.Api.V1.Validators;
     using Weather.Data.Entities;
 
@@ -76,6 +78,8 @@
                 .AddSingleton<Func<DateTime>>(() => DateTime.UtcNow)
                 .AddScoped<ModelValidationAttribute>()
                 .AddServices()
+                .AddBusinessServices()
+                .AddMapper()
                 .AddValidators()
                 .Configure<GelfLoggerOptions>(_configuration.GetSection("Graylog"))
                 .AddSwaggerGen(o => ConfigureSwaggerDocGen(services, o))
