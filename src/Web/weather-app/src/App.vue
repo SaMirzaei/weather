@@ -27,7 +27,7 @@
       </div>
 
       <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-md-2" v-for="weather in weathers" :key="weather.dateTime">
+        <div class="col-md-2" v-for="(weather, index) in weathers" :key="weather.dateTime">
           <div class="weather">
             <div class="current">
               <div class="info">
@@ -61,24 +61,9 @@
               </div>
             </div>
             <div class="future">
-              <div class="day">
+              <div class="day" :class="{ 'current-weather': index === 0 }">
                 <h4 class="date">{{weather.dateTime | formatDate }}</h4>
-                <!-- <p>
-                  <span class="wi-day-cloudy"></span>
-                </p>-->
               </div>
-              <!-- <div class="day">
-                <h3>Tue</h3>
-                <p>
-                  <span class="wi-showers"></span>
-                </p>
-              </div>
-              <div class="day">
-                <h3>Wed</h3>
-                <p>
-                  <span class="wi-rain"></span>
-                </p>
-              </div>-->
             </div>
           </div>
         </div>
@@ -89,20 +74,11 @@
           <tr>
             <th scope="col">
               DAY
-              <!-- <i
-                class="icon bigger"
-                style="background: url('https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg') no-repeat; background-size: contain;"
-              ></i>-->
             </th>
             <th scope="col">
               DESCRIPTION
-              <!-- <i
-                class="icon"
-                style="background: url(https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-1.svg) no-repeat; background-size: contain;"
-              ></i>-->
             </th>
             <th scope="col">HIGH / LOW</th>
-            <th scope="col">PRECIP</th>
             <th scope="col">WIND</th>
             <th scope="col">HUMIDITY</th>
           </tr>
@@ -118,8 +94,7 @@
               ></i>
             </td>
             <td>{{history.highTemperature}}° / {{history.lowTemperature}}°</td>
-            <td>{{history.wind}}%</td>
-            <td>SE 8 mph</td>
+            <td>{{history.wind}} km/h</td>
             <td>{{history.humidity}}%</td>
           </tr>
         </tbody>
@@ -200,7 +175,10 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
+.current-weather {
+  color: #fff;
+    background-color: #f68d2e;
+}
 .date {
   font-size: 1.2rem;
   text-align: center;
