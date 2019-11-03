@@ -22,7 +22,7 @@
 
         private readonly Func<DateTime> _now;
 
-        private readonly IMapper<OpenWeatherMap, List<WeatherModel>> _openWeatherMapper;
+        private readonly IMapper<OpenWeatherMap, IEnumerable<WeatherModel>> _openWeatherMapper;
 
         private readonly IMapper<Information, HistoryModel> _historyMapper;
 
@@ -30,7 +30,7 @@
             IRestClientProxy restClientProxy,
             ApiContext apiContext,
             Func<DateTime> now,
-            IMapper<OpenWeatherMap, List<WeatherModel>> openWeatherMapper,
+            IMapper<OpenWeatherMap, IEnumerable<WeatherModel>> openWeatherMapper,
             IMapper<Information, HistoryModel> historyMapper)
         {
             _restClientProxy = restClientProxy;
@@ -82,7 +82,6 @@
         {
             var result = _apiContext.Informations
                 .Where(t => t.City == city.ToLower().Trim())
-                // .Select(t => JsonConvert.DeserializeObject<OpenWeatherMap>(t.Json))
                 .ToList();
 
             return result.Select(_historyMapper.Map);

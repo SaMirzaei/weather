@@ -1,5 +1,7 @@
 ﻿namespace Weather.Api.V1.Models
 {
+    using System;
+
     public class WeatherModel
     {
         public string Coutnry { get; set; }
@@ -13,5 +15,7 @@
         public int Humidity { get; set; }
 
         public int Wind { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 }

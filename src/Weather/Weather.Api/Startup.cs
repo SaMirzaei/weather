@@ -57,7 +57,28 @@
                         })
                 .AddFormatterMappings()
                 .AddXmlSerializerFormatters()
-                .AddCors()
+                // .AddCors()
+                //.AddCors(options =>
+                //        {
+                //            options.AddPolicy(
+                //                "CorsPolicy",
+                //                builder => builder
+                //                    .AllowAnyOrigin()
+                //                    .AllowAnyMethod()
+                //                    .AllowAnyHeader()
+                //                    .WithOrigins("http://*:8080"));
+                //        })
+                .AddCors(
+                    options =>
+                        {
+                            options.AddDefaultPolicy(
+                                builder =>
+                                    {
+                                        builder.WithOrigins("http://localhost:8080")
+                                            .AllowAnyMethod()
+                                            .AllowAnyHeader();
+                                    });
+                        })
                 .AddFluentValidation(
                     fv =>
                         {
@@ -111,7 +132,7 @@
             {
                 app.UseDeveloperExceptionPage();
             }
-           
+
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -127,14 +148,7 @@
                     options.OAuthAppName("WeatherController API - Swagger");
                 });
 
-            app.UseCors(
-                builder =>
-                {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                })
+            app.UseCors()
                 .UseResponseCompression()
                 .UseMvc();
 

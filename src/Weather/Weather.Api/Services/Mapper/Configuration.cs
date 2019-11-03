@@ -13,7 +13,7 @@
         public static IServiceCollection AddMapper(this IServiceCollection services)
         {
             return services
-                .AddTransient<IMapper<OpenWeatherMap, List<WeatherModel>>, OpenWeatherMapper>()
+                .AddTransient<IMapper<OpenWeatherMap, IEnumerable<WeatherModel>>, OpenWeatherMapper>()
                 .AddTransient<IMapper<Information, HistoryModel>, HistoryMapper>();
         }
     }

@@ -29,7 +29,6 @@
             return Ok(result);
         }
 
-
         [HttpGet("history/{city}")]
         public IActionResult History(string city)
         {

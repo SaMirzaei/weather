@@ -57,7 +57,7 @@
             </div>
             <div class="future">
               <div class="day">
-                <h4 class="date">Tus 30 October</h4>
+                <h4 class="date">{{weather.dateTime | formatDate }}</h4>
                 <!-- <p>
                   <span class="wi-day-cloudy"></span>
                 </p> -->
@@ -309,7 +309,6 @@ export default {
   background-image: url("http://www.prepbootstrap.com/Content/images/shared/misc/london-view.png");
   background-repeat: repeat-x;
   color: white;
-  /* padding: 20px; */
   text-shadow: 1px 1px #f68d2e;
 }
 
