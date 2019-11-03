@@ -9,12 +9,17 @@
               <div class="col-12 col-md-9 mb-2 mb-md-0">
                 <input
                   type="text"
+                  v-model="city"
                   class="form-control form-control-lg"
                   placeholder="Enter a town, city or GR postcode..."
                 />
               </div>
               <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">Search!</button>
+                <button
+                  type="button"
+                  class="btn btn-block btn-lg btn-primary"
+                  v-on:click="searchWeather"
+                >Search!</button>
               </div>
             </div>
           </form>
@@ -22,7 +27,7 @@
       </div>
 
       <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-md-2" v-for="weather in weathers" :key="weather.coutnry">
+        <div class="col-md-2" v-for="weather in weathers" :key="weather.dateTime">
           <div class="weather">
             <div class="current">
               <div class="info">
@@ -60,7 +65,7 @@
                 <h4 class="date">{{weather.dateTime | formatDate }}</h4>
                 <!-- <p>
                   <span class="wi-day-cloudy"></span>
-                </p> -->
+                </p>-->
               </div>
               <!-- <div class="day">
                 <h3>Tue</h3>
@@ -73,7 +78,7 @@
                 <p>
                   <span class="wi-rain"></span>
                 </p>
-              </div> -->
+              </div>-->
             </div>
           </div>
         </div>
@@ -121,131 +126,34 @@
       </table>
     </div>
 
-    <!-- <link
-      rel="stylesheet"
-      type="text/css"
-      href="/Content/css/weather-icons/css/weather-icons.min.css"
-    />-->
-    <!-- http://www.prepbootstrap.com/bootstrap-template/weather-widget -->
-    <!-- https://www.bbc.co.uk/weather/2643743 -->
-
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <img alt="Vue logo" src="./assets/light-rain-shower-day.jpg" />
-      </div>
-    </div>-->
-
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-6">
-            <h3>Site Map</h3>
-            <ul class="list-unstyled three-column">
-              <li>Home</li>
-              <li>Services</li>
-              <li>About</li>
-              <li>Code</li>
-              <li>Design</li>
-              <li>Host</li>
-              <li>Contact</li>
-              <li>Company</li>
-            </ul>
-            <ul class="list-unstyled socila-list">
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-              <li>
-                <img src="http://placehold.it/48x48" alt />
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-6">
-            <h3>latest Articles</h3>
-            <div class="media">
-              <a href="#" class="pull-left">
-                <img src="http://placehold.it/64x64" alt class="media-object" />
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Programming</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              </div>
-            </div>
-
-            <div class="media">
-              <a href="#" class="pull-left">
-                <img src="http://placehold.it/64x64" alt class="media-object" />
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Coding</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              </div>
-            </div>
-
-            <div class="media">
-              <a href="#" class="pull-left">
-                <img src="http://placehold.it/64x64" alt class="media-object" />
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Web Sesign</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <h3>Our Work</h3>
-            <img class="img-thumbnail" src="http://placehold.it/150x100" alt />
-            <img class="img-thumbnail" src="http://placehold.it/150x100" alt />
-            <img class="img-thumbnail" src="http://placehold.it/150x100" alt />
-            <img class="img-thumbnail" src="http://placehold.it/150x100" alt />
-          </div>
-        </div>
-      </div>
-      <div class="copyright text-center">
-        Copyright &copy; 2017
-        <span>Your Template Name</span>
-      </div>
-    </footer>
+    <Footer />
+    
   </div>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
 import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 import axios from "axios";
 
 export default {
   name: "app",
   components: {
-    // HelloWorld,
-    Header
+    Header,
+    Footer
   },
   data() {
     return {
       weathers: [],
-      historyWeathers: []
+      historyWeathers: [],
+      city: "Leipzig"
     };
   },
   computed: {
     axiosParams() {
       const params = new URLSearchParams();
-      params.append("city", "Tehran");
-      params.append("zipCode", "1597");
+      params.append("city", this.city);
+      params.append("zipCode", this.city);
       return params;
     }
   },
@@ -261,7 +169,7 @@ export default {
         .then(response => {
           this.weathers = response.data;
 
-          this.history("tehran");
+          this.history(this.city);
         })
         .catch(e => {
           this.errors.push(e);
@@ -276,6 +184,9 @@ export default {
         .catch(e => {
           this.errors.push(e);
         });
+    },
+    searchWeather() {
+      this.fetch();
     }
   }
 };
@@ -291,9 +202,9 @@ export default {
 }
 
 .date {
-    font-size: 1.2rem;
-    text-align: center;
-    padding-top: 5px;
+  font-size: 1.2rem;
+  text-align: center;
+  padding-top: 5px;
 }
 
 .weather {

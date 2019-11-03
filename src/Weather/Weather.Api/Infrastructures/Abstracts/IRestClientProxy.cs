@@ -1,6 +1,7 @@
 ﻿namespace Weather.Api.Infrastructures.Abstracts
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,10 @@
 
         IActionResult Execute();
 
-        Task<IActionResult> ExecuteAsync();
+        Task<IActionResult> ExecuteAsync(CancellationToken cancellationToken);
 
         ActionResult<T> Execute<T>();
 
-        Task<ActionResult<T>> ExecuteAsync<T>();
+        Task<ActionResult<T>> ExecuteAsync<T>(CancellationToken cancellationToken);
     }
 }

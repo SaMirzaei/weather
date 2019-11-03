@@ -79,7 +79,7 @@
             return new StatusCodeResult((int)response.StatusCode);
         }
 
-        public async Task<IActionResult> ExecuteAsync()
+        public async Task<IActionResult> ExecuteAsync(CancellationToken cancellationToken)
         {
             switch (_request)
             {
@@ -90,8 +90,7 @@
                     return new StatusCodeResult(401);
             }
 
-            var cancellationTokenSource = new CancellationTokenSource();
-            var response = await _restClient.ExecuteTaskAsync(_request, cancellationTokenSource.Token);
+            var response = await _restClient.ExecuteTaskAsync(_request, cancellationToken);
 
             if (response.IsSuccessful)
             {
@@ -125,9 +124,9 @@
             return JsonConvert.DeserializeObject<T>(content.Content);
         }
 
-        public async Task<ActionResult<T>> ExecuteAsync<T>()
+        public async Task<ActionResult<T>> ExecuteAsync<T>(CancellationToken cancellationToken)
         {
-            var result = await ExecuteAsync();
+            var result = await ExecuteAsync(cancellationToken);
 
             if (!(result is ContentResult))
             {

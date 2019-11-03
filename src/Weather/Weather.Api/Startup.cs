@@ -57,21 +57,11 @@
                         })
                 .AddFormatterMappings()
                 .AddXmlSerializerFormatters()
-                // .AddCors()
-                //.AddCors(options =>
-                //        {
-                //            options.AddPolicy(
-                //                "CorsPolicy",
-                //                builder => builder
-                //                    .AllowAnyOrigin()
-                //                    .AllowAnyMethod()
-                //                    .AllowAnyHeader()
-                //                    .WithOrigins("http://*:8080"));
-                //        })
                 .AddCors(
                     options =>
                         {
-                            options.AddDefaultPolicy(
+                            options.AddPolicy(
+                                "CorsPolicty",
                                 builder =>
                                     {
                                         builder.WithOrigins("http://localhost:8080")
@@ -148,11 +138,9 @@
                     options.OAuthAppName("WeatherController API - Swagger");
                 });
 
-            app.UseCors()
+            app.UseCors("CorsPolicty")
                 .UseResponseCompression()
                 .UseMvc();
-
-            AddTestData(app.ApplicationServices.GetService<ApiContext>());
         }
 
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
@@ -193,41 +181,6 @@
             {
                 options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
             }
-
-            ////options.AddSecurityDefinition(
-            ////    "oauth2",
-            ////    new OAuth2Scheme
-            ////        {
-            ////            Type = "oauth2",
-            ////            Flow = "implicit",
-            ////            AuthorizationUrl = $"{IdentityServer}/connect/authorize",
-            ////            TokenUrl = $"{IdentityServer}/connect/token",
-            ////            Scopes = new Dictionary<string, string>
-            ////                         {
-            ////                             { "webapi", "Web API - full access" }
-            ////                         }
-            ////        });
-
-            ////options.OperationFilter<AuthorizeCheckOperationFilter>();
-            ////options.OperationFilter<SwaggerDefaultValues>();
-
-            //////var xmlFile = $"{typeof(Startup).Assembly.GetName().Name}.xml";
-            //////var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //////options.IncludeXmlComments(xmlPath);
-        }
-
-        private static void AddTestData(ApiContext context)
-        {
-            var testUser1 = new Information
-            {
-                Id = Guid.NewGuid(),
-                CreatedAt = DateTime.Now,
-                Json = "test"
-            };
-
-            context.Informations.Add(testUser1);
-
-            context.SaveChanges();
         }
     }
 }

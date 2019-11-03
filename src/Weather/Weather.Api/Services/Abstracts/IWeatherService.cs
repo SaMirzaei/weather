@@ -1,15 +1,17 @@
 ﻿namespace Weather.Api.Services.Abstracts
 {
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using Weather.Api.V1.Models;
 
     public interface IWeatherService
     {
-        IEnumerable<WeatherModel> GetByCity(string city);
+        Task<IEnumerable<WeatherModel>> GetByCity(string city, CancellationToken cancellationToken);
 
-        IEnumerable<WeatherModel> GetByZipCide(string zipCode);
+        Task<IEnumerable<WeatherModel>> GetByZipCide(string zipCode, CancellationToken cancellationToken);
 
-        IEnumerable<HistoryModel> GetHistory(string city);
+        Task<IEnumerable<HistoryModel>> GetHistory(string city, CancellationToken cancellationToken);
     }
 }

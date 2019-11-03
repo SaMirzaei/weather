@@ -3,6 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
 
     using RestSharp;
     using RestSharp.Serialization.Json;
@@ -40,14 +44,14 @@
             _historyMapper = historyMapper;
         }
 
-        public IEnumerable<WeatherModel> GetByCity(string city)
+        public async Task<IEnumerable<WeatherModel>> GetByCity(string city, CancellationToken cancellationToken)
         {
-            var data = _restClientProxy
+            var data = await _restClientProxy
                 .Setup(t =>
                 {
                     t.Parameters.Add(new Parameter("q", city, ParameterType.QueryString));
                 })
-                .Execute<OpenWeatherMap>();
+                .ExecuteAsync<OpenWeatherMap>(cancellationToken);
 
             if (data?.Value == null)
             {
@@ -59,14 +63,14 @@
             return _openWeatherMapper.Map(data.Value);
         }
 
-        public IEnumerable<WeatherModel> GetByZipCide(string zipCode)
+        public async Task<IEnumerable<WeatherModel>> GetByZipCide(string zipCode, CancellationToken cancellationToken)
         {
-            var data = _restClientProxy
+            var data = await _restClientProxy
                 .Setup(t =>
                 {
                     t.Parameters.Add(new Parameter("zip", zipCode, ParameterType.QueryString));
                 })
-                .Execute<OpenWeatherMap>();
+                .ExecuteAsync<OpenWeatherMap>(cancellationToken);
 
             if (data?.Value == null)
             {
@@ -78,11 +82,11 @@
             return _openWeatherMapper.Map(data.Value);
         }
 
-        public IEnumerable<HistoryModel> GetHistory(string city)
+        public async Task<IEnumerable<HistoryModel>> GetHistory(string city, CancellationToken cancellationToken)
         {
-            var result = _apiContext.Informations
+            var result = await _apiContext.Informations
                 .Where(t => t.City == city.ToLower().Trim())
-                .ToList();
+                .ToListAsync(cancellationToken);
 
             return result.Select(_historyMapper.Map);
         }
@@ -92,6 +96,14 @@
             if (openWeatherMap == null)
             {
                 throw new NullReferenceException(nameof(openWeatherMap));
+            }
+
+            if (_apiContext.Informations.Any(t => 
+                t.CreatedAt.Date == _now().Date && 
+                t.Country.ToLower().Trim() == openWeatherMap.City.Country.ToLower().Trim() && 
+                t.City.ToLower().Trim() == openWeatherMap.City.Name.ToLower().Trim()))
+            {
+                return;
             }
 
             _apiContext.Informations.Add(new Information
