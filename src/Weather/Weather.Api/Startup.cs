@@ -153,13 +153,13 @@
                 TermsOfService = new Uri("http://mobinsb.org/licenses/online"),
                 Contact = new OpenApiContact
                 {
-                    Name = "Pouyaandishan.com",
-                    Email = "Pouyaandishan@gmail.com"
+                    Name = "Appsfactory.com",
+                    Email = "Appsfactory@gmail.com"
                 },
                 License = new OpenApiLicense
                 {
-                    Name = "Pouyaandishan",
-                    Url = new Uri("http://mobinsb.org/licenses/online")
+                    Name = "Appsfactory",
+                    Url = new Uri("http://Appsfactory.de/en")
                 }
             };
 
